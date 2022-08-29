@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Employee_model.apps.EmployeeModelConfig',
+    'first_page.apps.FirstPageConfig'
 ]
 
 MIDDLEWARE = [
