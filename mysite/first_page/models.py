@@ -12,7 +12,7 @@ class Task(models.Model):
 
 	def get_deadline(self):
 		d = datetime.date.today()
-		return (d-self.deadline)
+		return (d-self.deadline).days
 
 	def __str__(self):
 		return self.name

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'first_page/bootstrap.min.css' %}">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'first_page/main.css' %}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div id="main-content" class="col-md-9">
+            <h1> سامانه‌ی انجام کار</h1>
+            <div>
+                <div class="col-sm-12">
+                    <h3 style="display: inline-block">نوشتن تمرینای احتمال</h3>
+                    <a class="btn btn-default">انجام می‌دم</a>
+                    <hr/>
+                </div>
+                <div class="col-sm-2"></div>
+                <div class="col-sm-4">ساخته شده در {{task.deadline}}</div>
+                <div class="col-sm-3">تومان {{task.price}}</div>
+                <div class="col-sm-3">زمان باقی مانده {{ task.get_deadline }} روز</div>
+                <div class="col-sm-12">
+                    <br/>
+                    توضیحات:
+                    <br/>
+                    کار {{task.name}} توسط {{task.user}} انجام خواهد شد.
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <h5> شما با نام کاربری JigilWorker123 به عنوان کارمند وارد سیستم شده‌اید.</h5>
+            <a class="btn btn-default btn-block" href="index.html">صفحه‌ی اصلی</a>
+            <a class="btn btn-default btn-block">خروج</a>
+        </div>
+    </div>
+    <footer>
+        <hr/>
+        <span>درباه‌ی ما</span>
+        <span>قوانین</span>
+    </footer>
+</div>
+</body>
+</html>
