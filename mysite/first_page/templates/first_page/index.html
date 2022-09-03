@@ -48,33 +48,56 @@
             </div>
         </div>
         <div class="col-md-3">
+            {% if not User.is_authenticated %}
             <h3> ورود </h3>
-            <form>
-                <div class="form-group">
-                    <input type="email" class="form-control" name="email" placeholder="ایمیل">
-                </div>
-                <button class="btn btn-default btn-block">ورود</button>
+            <form action="{% url 'first_page:signin' %}" method="post">
+            {% csrf_token %}
+                <fieldset>
+                    <div class="form-group">
+                        <input type="username" class="form-control" name="username" placeholder="نام کاربری">
+                    </div>
+                    <div>
+                        <input type="password" class="form-control" name="password" placeholder="رمزعبور">
+                    </div>
+                </fieldset>
+                <br>
+                <input type="submit" value="ورود" class="btn btn-default btn-block">
+                {% for error in page_error.signin_error_text %}
+                    <p style="color: tomato;">*{{error}}</p>
+                {% endfor %}
             </form>
             <hr/>
             <h3>ثبت نام</h3>
-            <form>
-                <div class="form-group">
-                    <input name="username" maxlength="100" class="form-control" placeholder="نام‌کاربری">
-                </div>
-                <div class="form-group">
-                    <input name="email" class="form-control" placeholder="ایمیل" type="email">
-                </div>
-                <div class="form-group">
-                    <input name="password" class="form-control" placeholder="رمزعبور" type="password">
-                </div>
-                <div class="form-group">
-                    <input name="password_rpt" class="form-control" placeholder="تکرار رمز عبور" type="password">
-                </div>
-                <div class="form-group">
-                    <label><input name="master" type="checkbox">کارفرما</label>
-                </div>
-                <button class="btn btn-default btn-block">ثبت نام</button>
+            <form action="{% url 'first_page:signup' %}" method="post">
+            {% csrf_token %}
+                <fieldset>
+                    <div class="form-group">
+                        <input name="username" maxlength="100" class="form-control" placeholder="نام‌کاربری">
+                    </div>
+                    <div class="form-group">
+                        <input name="email" class="form-control" placeholder="ایمیل" type="email">
+                    </div>
+                    <div class="form-group">
+                        <input name="password" class="form-control" placeholder="رمزعبور" type="password">
+                    </div>
+                    <div class="form-group">
+                        <input name="password_rpt" class="form-control" placeholder="تکرار رمز عبور" type="password">
+                    </div>
+                    <div class="form-group">
+                        <label><input name="master" type="checkbox">کارفرما</label>
+                    </div>
+                </fieldset>
+                <input type="submit" value="ثبت نام" class="btn btn-default btn-block">
+                {% for error in page_error.signup_error_text %}
+                    <p style="color: tomato;">*{{error}}</p>
+                {% endfor %}
             </form>
+            {% else %}
+            <p>
+                شما با نام کاربری {{User.username}} به عنوان {% if User.is_master %} کارمند {% else %} کارگذار {% endif %} وارد سیستم شده اید
+            </p>
+            <p style="text-align: center;"><a href="{% url 'first_page:signout' %}" class="btn btn-default">خروج</a></p>
+            {% endif %}
         </div>
     </div>
     <footer>
