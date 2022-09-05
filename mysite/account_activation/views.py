@@ -27,7 +27,6 @@ def activate(request, uidb64, token):
 	uid = force_str(urlsafe_base64_decode(uidb64))
 	user = User.objects.get(pk=uid)
 	acc = activation.objects.get(uid=uid)
-	print(uid, user.username)
 
 	if user is not None and acc.token == token:
 		user.is_active = True;
