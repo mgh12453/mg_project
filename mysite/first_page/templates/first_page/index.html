@@ -91,10 +91,13 @@
                 {% for error in page_error.signup_error_text %}
                     <p style="color: tomato;">*{{error}}</p>
                 {% endfor %}
+                {% for succes in page_error.signup_succes_text %}
+                    <p style="color: green;">#{{succes}}</p>
+                {% endfor %}
             </form>
             {% else %}
             <p>
-                شما با نام کاربری {{User.username}} به عنوان {% if User.is_master %} کارمند {% else %} کارگذار {% endif %} وارد سیستم شده اید
+                شما با نام کاربری {{User.username}} به عنوان {% if User.profile.is_master %} کارگذار {% else %} کارمند {% endif %} وارد سیستم شده اید
             </p>
             <p style="text-align: center;"><a href="{% url 'first_page:signout' %}" class="btn btn-default">خروج</a></p>
             {% endif %}

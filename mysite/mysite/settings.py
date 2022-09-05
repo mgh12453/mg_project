@@ -22,6 +22,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-=8=5z64p89ak2eal&q2jqpibkzjl11z1ea(hajv+l$=uwmv0*4'
 
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_USE_TLS = False
+EMAIL_HOST = 'localhost'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 25
+DEFAULT_FROM_EMAIL = 'sender12453@yahoo.com'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -38,7 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Employee_model.apps.EmployeeModelConfig',
-    'first_page.apps.FirstPageConfig'
+    'first_page.apps.FirstPageConfig',
+    'account_activation.apps.AccountActivationConfig'
 ]
 
 MIDDLEWARE = [
