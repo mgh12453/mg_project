@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Employee_model.apps.EmployeeModelConfig',
     'first_page.apps.FirstPageConfig',
     'account_activation.apps.AccountActivationConfig'
 ]

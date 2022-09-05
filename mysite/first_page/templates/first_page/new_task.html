@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="main.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'first_page/bootstrap.min.css' %}">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'first_page/main.css' %}">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -14,6 +16,7 @@
             <div>
                 <h3> افزودن کار جدید </h3>
                 <form action="index.html" class="form-horizontal">
+                {% csrf_token %}
                     <div class="form-group">
                         <div class="col-sm-4"></div>
                         <div class="col-sm-6">
@@ -38,21 +41,25 @@
                     <div class="form-group">
                         <div class="col-sm-4"></div>
                         <div class="col-sm-6">
-                            <input name="estimated_duration" class="form-control" type="number">
+                            <input name="estimated_duration" class="form-control" type="date">
                         </div>
                         <label class="control-label col-sm-2" for="title">زمان تخمینی</label>
                     </div>
                     <div class="col-sm-4"></div>
                     <div class="col-sm-8">
-                        <button class="btn btn-default btn-block">افزودن کار</button>
+                        <button type=submit method=post class="btn btn-default btn-block">افزودن کار</button>
                     </div>
                 </form>
             </div>
         </div>
         <div class="col-md-3">
-            <h5>شما با نام کاربری beautifulMaster1755 به عنوان کارفرما وارد سیستم شده‌اید.</h5>
-            <a class="btn btn-default btn-block" href="index.html">صفحه‌ی اصلی</a>
-            <a class="btn btn-default btn-block">خروج</a>
+            <p>
+                شما با نام کاربری {{User.username}} به عنوان {% if User.profile.is_master %} کارگذار {% else %} کارمند {% endif %} وارد سیستم شده اید
+            </p>
+            <p style="text-align: center;">
+                <a class="btn btn-default btn-block" href="{% url 'first_page:show_page' %}">صفحه‌ی اصلی</a>
+                <a href="{% url 'first_page:signout' %}" class="btn btn-default btn-block">خروج</a>
+            </p>
         </div>
     </div>
     <footer>

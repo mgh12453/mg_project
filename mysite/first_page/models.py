@@ -1,16 +1,17 @@
-from django.db import models
-from django.contrib.auth.models import User
-from django.dispatch import receiver
-from django.db.models.signals import post_save
-from django.utils import timezone
 import datetime
+from django.db import models
+from django.utils import timezone
+from django.forms import ModelForm
+from django.dispatch import receiver
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 
-# Create your models here.
 class Task(models.Model):
+	user = models.OneToOneField(User, default=None, on_delete=models.SET_DEFAULT)
 	name = models.CharField(max_length=50)
-	deadline = models.DateField()
 	price = models.IntegerField()
-	user = models.CharField(max_length=50)
+	deadline = models.DateField()
+	details = models.TextField(default='کارگذار هیچ توضیحی برای این کار اضافه نکرده است')
 
 	def get_deadline(self):
 		d = datetime.date.today()
@@ -18,6 +19,12 @@ class Task(models.Model):
 
 	def __str__(self):
 		return self.name
+
+class FormTask(ModelForm):
+	class Meta:
+		model = Task
+		fields = ['name', 'price', 'deadline', 'details']
+
 
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)

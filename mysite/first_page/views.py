@@ -3,8 +3,9 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse
 from django.core.paginator import Paginator
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import Task
+from .models import Task, FormTask
 from account_activation.views import send_activation_mail
 
 class page_error:
@@ -43,10 +44,19 @@ def show_page(request, page=None):
     perror.clear()
     return ret
 
+@login_required(login_url='first_page')
 def info(request, id):
     task = Task.objects.get(pk=id)
-    context = {'task': task}
+    context = {'task': task, 'User': request.user}
     return render(request, 'first_page/details.html', context)
+
+@login_required(login_url='first_page')
+def new_task(request):
+    if not request.POST:
+        return render(request, 'first_page/new_task.html', {'User': request.user})
+    form = FormTask(request.POST)
+    task = form.save()
+    task.save()
 
 def signin(request):
     user = authenticate(request, username=request.POST['username'], password=request.POST['password'])

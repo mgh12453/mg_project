@@ -29,7 +29,7 @@
                         <td>{{ t.name }}</td>
                         <td>{{ t.price }}</td>
                         <td>{{ t.deadline }}</td>
-                        <td>{{ t.user }}</td>
+                        <td>{%if t.user is None%}بدون پیمانکار{%else%}{{ t.user.username }}{%endif%}</td>
                         <td><a href="{% url 'first_page:info' t.id %}" class="btn btn-default">توضیحات بیشتر</a></td>
                         </tr>
                     {% endfor %}

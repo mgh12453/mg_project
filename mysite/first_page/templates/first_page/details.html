@@ -27,14 +27,18 @@
                     <br/>
                     توضیحات:
                     <br/>
-                    کار {{task.name}} توسط {{task.user}} انجام خواهد شد.
+                    {{task.details}}
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <h5> شما با نام کاربری JigilWorker123 به عنوان کارمند وارد سیستم شده‌اید.</h5>
-            <a class="btn btn-default btn-block" href="index.html">صفحه‌ی اصلی</a>
-            <a class="btn btn-default btn-block">خروج</a>
+            <p>
+                شما با نام کاربری {{User.username}} به عنوان {% if User.profile.is_master %} کارگذار {% else %} کارمند {% endif %} وارد سیستم شده اید
+            </p>
+            <p style="text-align: center;">
+                <a class="btn btn-default btn-block" href="{% url 'first_page:show_page' %}">صفحه‌ی اصلی</a>
+                <a href="{% url 'first_page:signout' %}" class="btn btn-default btn-block">خروج</a>
+            </p>
         </div>
     </div>
     <footer>
