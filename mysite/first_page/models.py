@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
 class Task(models.Model): 
-	user = models.OneToOneField(User, default=None, null=True, on_delete=models.SET_DEFAULT)
+	user = models.ForeignKey(User, default=None, null=True, on_delete=models.SET_DEFAULT)
 	name = models.CharField(max_length=50)
 	owner =	models.CharField(default=None, null=True, max_length=50)
 	price = models.IntegerField()
@@ -16,7 +16,7 @@ class Task(models.Model):
 
 	def get_deadline(self):
 		d = datetime.date.today()
-		return (d-self.deadline).days
+		return (self.deadline-d).days
 
 	def __str__(self):
 		return self.name

@@ -3,6 +3,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse
 from django.core.paginator import Paginator
 from django.contrib.auth import login, authenticate, logout
+from django.views.decorators.cache import cache_page
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Task, FormTask
@@ -26,6 +27,7 @@ def must_login(request):
     perror.must_login_error = True
     return HttpResponseRedirect(reverse('first_page:show_page'))
 
+#@cache_page(60 * 4, cache='default')
 def show_page(request, page=None):
     p = Paginator(Task.objects.all(), 4)
 
@@ -51,6 +53,7 @@ def show_page(request, page=None):
     return ret
 
 @login_required(login_url='first_page:must_login')
+#@cache_page(60 * 4, cache='default')
 def info(request, id):
     task = Task.objects.get(pk=id)
     context = {'task': task, 'User': request.user}
