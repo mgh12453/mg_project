@@ -29,7 +29,7 @@
                         <td>{{ t.name }}</td>
                         <td>{{ t.price }}</td>
                         <td>{{ t.deadline }}</td>
-                        <td>{%if t.user is None%}بدون پیمانکار{%else%}{{ t.user.username }}{%endif%}</td>
+                        <td>{{ t.owner }}</td>
                         <td><a href="{% url 'first_page:info' t.id %}" class="btn btn-default">توضیحات بیشتر</a></td>
                         </tr>
                     {% endfor %}
@@ -99,6 +99,7 @@
             <p>
                 شما با نام کاربری {{User.username}} به عنوان {% if User.profile.is_master %} کارگذار {% else %} کارمند {% endif %} وارد سیستم شده اید
             </p>
+            <p style="text-align: center;"><a href="{% url 'first_page:new_task' %}" class="btn btn-default">اضافه کردن کار</a></p>
             <p style="text-align: center;"><a href="{% url 'first_page:signout' %}" class="btn btn-default">خروج</a></p>
             {% endif %}
         </div>
@@ -107,6 +108,34 @@
         <hr/>
         <span> درباه‌ی ما</span>
         <span>قوانین</span>
+        {% if page_error.must_login_error %}
+        <style>
+            .alert {
+              padding: 20px;
+              background-color: #f44336;
+              color: white;
+            }
+
+            .closebtn {
+              margin-left: 15px;
+              color: white;
+              font-weight: bold;
+              float: right;
+              font-size: 22px;
+              line-height: 20px;
+              cursor: pointer;
+              transition: 0.3s;
+            }
+
+            .closebtn:hover {
+              color: black;
+            }
+            </style>
+        <div class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            برای دسترسی به این بخش باید وارد اکانت خود شوید.
+        </div> 
+        {% endif %}
     </footer>
 </div>
 </body>

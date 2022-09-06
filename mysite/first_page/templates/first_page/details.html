@@ -15,8 +15,13 @@
             <h1> سامانه‌ی انجام کار</h1>
             <div>
                 <div class="col-sm-12">
-                    <h3 style="display: inline-block">نوشتن تمرینای احتمال</h3>
-                    <a class="btn btn-default">انجام می‌دم</a>
+                    {% if task.user is None %}
+                    <a href="{% url 'first_page:assign_task' task.pk %}" class="btn btn-default">انجام می‌دم</a>
+                    {% else %}
+                    <p>
+                        این کار توسط کاربر {{task.user.username}} در حال انجام است.
+                    </p>
+                    {% endif %}
                     <hr/>
                 </div>
                 <div class="col-sm-2"></div>

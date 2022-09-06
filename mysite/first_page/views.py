@@ -12,13 +12,19 @@ class page_error:
     signin_error_text = []
     signup_error_text = []
     signup_succes_text = []
+    must_login_error = False
 
     def clear(self):
         self.signup_error_text.clear()
         self.signin_error_text.clear()
         self.signup_succes_text.clear()
+        must_login_error = False    
 
 perror = page_error()
+
+def must_login(request):
+    perror.must_login_error = True
+    return HttpResponseRedirect(reverse('first_page:show_page'))
 
 def show_page(request, page=None):
     p = Paginator(Task.objects.all(), 4)
@@ -44,7 +50,7 @@ def show_page(request, page=None):
     perror.clear()
     return ret
 
-@login_required(login_url='first_page')
+@login_required(login_url='first_page:must_login')
 def info(request, id):
     task = Task.objects.get(pk=id)
     context = {'task': task, 'User': request.user}
@@ -53,10 +59,23 @@ def info(request, id):
 @login_required(login_url='first_page')
 def new_task(request):
     if not request.POST:
-        return render(request, 'first_page/new_task.html', {'User': request.user})
+        form = FormTask()
+        return render(request, 'first_page/new_task.html', {'User': request.user, 'form': form})
     form = FormTask(request.POST)
-    task = form.save()
+    if form.is_valid():
+        task = form.save(commit=False)
+        task.owner = request.user.username
+        task.save()
+        return HttpResponseRedirect(reverse('first_page:show_page'))
+    else:
+        return render(request, 'first_page/new_task.html', {'User': request.user, 'form': form})
+
+@login_required(login_url='first_page')
+def assign_task(request, tid):
+    task = Task.objects.get(pk=tid)
+    task.user = request.user
     task.save()
+    return HttpResponseRedirect(reverse('first_page:info', kwargs={'id':tid}))
 
 def signin(request):
     user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
