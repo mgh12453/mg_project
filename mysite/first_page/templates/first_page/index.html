@@ -23,7 +23,7 @@
                     <th>توضیحات</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="task_table">
                     {% for t in task %}
                         <tr>
                         <td>{{ t.name }}</td>
@@ -35,17 +35,7 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <div id="tasks-paginator">
-                <ul class="pagination">
-                    {% for i in page_list %}
-                        {% if i != page %}
-                            <li><a href="{% url 'first_page:show_page' i %}">{{i}}</a></li>
-                        {% else %}
-                            <li class="active"><a href="{% url 'first_page:show_page' i %}">{{i}}</a></li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-            </div>
+            <p style="text-align: center;"><button id="next_page" class="btn-default">بیشتر</button>
         </div>
         <div class="col-md-3">
             {% if not User.is_authenticated %}
@@ -137,6 +127,35 @@
         </div> 
         {% endif %}
     </footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var page = 2;
+            $("#next_page").click(function(){
+                $.get("load_more/"+page, 
+                function(data, status){
+                    data.forEach(function(t){
+                        var html = `
+                        <tr>
+                            <td>${t.name}</td>
+                            <td>${t.price}</td>
+                            <td>${t.deadline}</td>
+                            <td>${t.owner}</td>
+                            <td><a href="{% url 'first_page:info' %}?id=${t.id}" class="btn btn-default">توضیحات بیشتر</a></td>
+                        </tr>`
+                        $("#task_table").append(html);
+                    });
+                    page = page+1;
+                }, "json");
+                if(page >= {{num_page}}){
+                    var x = document.getElementById("next_page")
+                    x.style.display = "none";
+                }
+            });
+        });
+    </script>
+
 </div>
 </body>
 </html>

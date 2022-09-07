@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Task, FormTask
 from account_activation.views import send_activation_mail
+import json
+from datetime import datetime
 
 class page_error:
     signin_error_text = []
@@ -52,9 +54,27 @@ def show_page(request, page=None):
     perror.clear()
     return ret
 
+def load_more(request, page):
+    task = Paginator(Task.objects.all(), 4).page(page).object_list
+    data = list()
+    for t in task:
+        data.append({'name': t.name,
+                     'price': t.price,
+                     'deadline': t.deadline.strftime("%b, %d, %Y"),
+                     'owner': t.owner,
+                     'id': t.id,
+                     })
+    return HttpResponse(json.dumps(data), content_type="application/json")
+
+
+
 @login_required(login_url='first_page:must_login')
 #@cache_page(60 * 4, cache='default')
-def info(request, id):
+def info(request):
+    id = request.GET.get("id")
+    if not id:
+        raise Http404()
+
     task = Task.objects.get(pk=id)
     context = {'task': task, 'User': request.user}
     return render(request, 'first_page/details.html', context)
