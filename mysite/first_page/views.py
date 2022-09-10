@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from .models import Task, FormTask
 from account_activation.views import send_activation_mail
 import json
+from functools import wraps
 from datetime import datetime
 
 class page_error:
@@ -24,6 +25,14 @@ class page_error:
         must_login_error = False    
 
 perror = page_error()
+
+def master_only(func):
+    @wraps(func)
+    def wrap(request, *args, **kwargs):
+        if request.user.profile.is_master is False:
+            return HttpResponse("برای دسترسی به این بخش باید کارگذار باشید.")
+    
+    return wrap
 
 def must_login(request):
     perror.must_login_error = True
@@ -80,6 +89,7 @@ def info(request):
     return render(request, 'first_page/details.html', context)
 
 @login_required(login_url='first_page')
+@master_only
 def new_task(request):
     if not request.POST:
         form = FormTask()
