@@ -8,7 +8,6 @@ urlpatterns = [
     path('load_more/<int:page>', views.load_more, name='load_more'),
     path('must_login', views.must_login, name='must_login'),
     path('info/', views.info, name='info'),
-    path('info/<int:id>', views.info, name='info'),
     path('signin', views.signin, name='signin'),
     path('signup', views.signup, name='signup'),
     path('signout', views.signout, name='signout'),

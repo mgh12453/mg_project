@@ -30,7 +30,7 @@
                         <td>{{ t.price }}</td>
                         <td>{{ t.deadline }}</td>
                         <td>{{ t.owner }}</td>
-                        <td><a href="{% url 'first_page:info' t.id %}" class="btn btn-default">توضیحات بیشتر</a></td>
+                        <td><a href="{% url 'first_page:info'%}?id={{t.id}}" class="btn btn-default">توضیحات بیشتر</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>

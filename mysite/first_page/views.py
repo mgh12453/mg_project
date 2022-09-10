@@ -98,7 +98,7 @@ def assign_task(request, tid):
     task = Task.objects.get(pk=tid)
     task.user = request.user
     task.save()
-    return HttpResponseRedirect(reverse('first_page:info', kwargs={'id':tid}))
+    return HttpResponseRedirect(reverse('first_page:info')+f'?id={tid}')
 
 def signin(request):
     user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
