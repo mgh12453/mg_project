@@ -31,6 +31,7 @@ def master_only(func):
     def wrap(request, *args, **kwargs):
         if request.user.profile.is_master is False:
             return HttpResponse("برای دسترسی به این بخش باید کارگذار باشید.")
+        return func(request, *args, **kwargs)
     
     return wrap
 
