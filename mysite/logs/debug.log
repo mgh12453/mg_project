@@ -1,0 +1,21 @@
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Not Found: /
+"GET / HTTP/1.1" 404 2502
+"GET /first_page HTTP/1.1" 301 0
+"GET /first_page/ HTTP/1.1" 200 6079
+"GET /static/first_page/bootstrap.min.css HTTP/1.1" 200 121200
+"GET /static/first_page/main.css HTTP/1.1" 200 598
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2553
+Internal Server Error: /first_page/signin
+Traceback (most recent call last):
+  File "/home/mohammad/Documents/Codes/git/lib/python3.8/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/mohammad/Documents/Codes/git/lib/python3.8/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/mohammad/Documents/Codes/git/mg_project/mysite/first_page/views.py", line 118, in signin
+    if not user.is_active:
+AttributeError: 'NoneType' object has no attribute 'is_active'
+"POST /first_page/signin HTTP/1.1" 500 67398
+Watching for file changes with StatReloader
